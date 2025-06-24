@@ -10,7 +10,7 @@ const Beranda = () => {
   useEffect(() => {
     const fetchKarya = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/karya");
+        const response = await fetch("http://127.0.0.1:3000/api/karya");
         const data = await response.json();
         setKaryaList(data);
       } catch (error) {

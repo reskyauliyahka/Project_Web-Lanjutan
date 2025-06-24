@@ -29,7 +29,7 @@ const Detail = () => {
 
   const fetchKaryaDetail = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/karya/${id}`);
+      const res = await fetch(`http://127.0.0.1:3000/api/karya/${id}`);
       if (!res.ok) throw new Error("Gagal memuat detail karya");
       const data = await res.json();
       setKarya(data);
@@ -42,7 +42,7 @@ const Detail = () => {
 
   const fetchLikeStatus = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/like/check/${id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/check/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -54,7 +54,7 @@ const Detail = () => {
 
   const fetchLikeCount = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/like/count/${id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/count/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -66,7 +66,7 @@ const Detail = () => {
 
   const fetchKomentarCount = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${id}`);
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${id}`);
       const data = await res.json();
       setCommentCount(data.length);
     } catch (err) {
@@ -76,7 +76,7 @@ const Detail = () => {
 
   const fetchKomentar = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${id}`);
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${id}`);
       const data = await res.json();
       setKomentarList(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -87,7 +87,7 @@ const Detail = () => {
   const handleLikeToggle = async () => {
     try {
       const method = liked ? "DELETE" : "POST";
-      const res = await fetch(`http://localhost:3000/api/like/${id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/${id}`, {
         method,
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -107,7 +107,7 @@ const Detail = () => {
     if (!komentarInput.trim()) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const Detail = () => {
     if (!konfirmasi) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/karya/${id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/karya/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -231,12 +231,12 @@ const Detail = () => {
                 {komentarList.map((kom, idx) => (
                   <li key={idx} className="flex items-start gap-2 border-b pb-2">
                     <img
-                      src={kom.User?.profile_picture || "https://via.placeholder.com/40"}
-                      alt={kom.User?.username}
+                      src={kom.user?.profile_picture || "https://via.placeholder.com/40"}
+                      alt={kom.user?.username}
                       className="w-8 h-8 rounded-full object-cover"
                     />
                     <div>
-                      <p className="font-semibold">{kom.User?.username || "Pengguna"}</p>
+                      <p className="font-semibold">{kom.user?.username || "Pengguna"}</p>
                       <p>{kom.isi}</p>
                     </div>
                   </li>

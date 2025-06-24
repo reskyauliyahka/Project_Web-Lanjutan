@@ -13,7 +13,7 @@ function Profil() {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/users/me", {
+      const res = await fetch("http://127.0.0.1:3000/api/user/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,12 +52,14 @@ function Profil() {
       const data = new FormData();
       data.append("username", formData.username);
       data.append("email", formData.email);
+      data.append("password", ""); // 🟩 tambahkan ini agar sesuai ekspektasi backend
       if (formData.profile_picture) {
-        data.append("profile_picture", formData.profile_picture);
+        data.append("file", formData.profile_picture); // pastikan nama = "file"
       }
 
-      const res = await fetch("http://localhost:3000/api/users/me", {
-        method: "PATCH", // ✅ sesuai dengan rute di Express
+
+      const res = await fetch("http://127.0.0.1:3000/api/user/me", {
+        method: "PUT", // ✅ sesuai dengan rute di Express
         headers: {
           Authorization: `Bearer ${token}`,
         },

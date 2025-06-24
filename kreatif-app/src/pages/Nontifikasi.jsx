@@ -8,7 +8,7 @@ function Nontifikasi() {
   useEffect(() => {
     const fetchNotifikasi = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/notifikasi", {
+        const res = await axios.get("http://127.0.0.1:3000/api/notifikasi", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

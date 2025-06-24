@@ -24,7 +24,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
 
   const fetchLikeStatus = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/like/check/${karya.id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/check/${karya.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -36,7 +36,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
 
   const fetchLikeCount = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/like/count/${karya.id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/count/${karya.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -48,7 +48,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
 
   const fetchKomentar = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${karya.id}`);
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`);
       const data = await res.json();
       setKomentarList(data);
     } catch (err) {
@@ -58,7 +58,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
 
   const fetchKomentarCount = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${karya.id}`);
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`);
       const data = await res.json();
       setCommentCount(data.length);
     } catch (err) {
@@ -69,7 +69,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
   const handleLikeToggle = async () => {
     try {
       const method = liked ? "DELETE" : "POST";
-      const res = await fetch(`http://localhost:3000/api/like/${karya.id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/like/${karya.id}`, {
         method,
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -93,7 +93,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
     if (!komentarInput.trim()) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/komentar/${karya.id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

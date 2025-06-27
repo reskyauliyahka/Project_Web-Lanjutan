@@ -1,32 +1,50 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Beranda from './pages/Beranda';
 import UploadKarya from './pages/UploadKarya';
 import Favorit from './pages/Favorit';
 import Riwayat from './pages/Riwayat';
-import Profil from './pages/Profil';
+import ProfilPage from './pages/Profil';
 import Notifikasi from './pages/Nontifikasi'; 
 import Detail from "./pages/Detail";
+import Gallery from "./pages/Gallery";
+import About from "./pages/About";
 
 // ⬇️ Import halaman baru
 import LoginForm from './pages/Login';
 import RegisterForm from './pages/Registrasi';
 
+// Layout dengan Navbar yang hanya akan membungkus halaman tertentu
+function Layout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet /> {/* Di sinilah semua halaman dengan navbar akan dirender */}
+    </>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Beranda />} />
-        <Route path="/upload" element={<UploadKarya />} />
-        <Route path="/upload/:id" element={<UploadKarya />} />
-        <Route path="/favorit" element={<Favorit />} />
-        <Route path="/riwayat" element={<Riwayat />} />
-        <Route path="/profil" element={<Profil />} />
-        <Route path="/notifikasi" element={<Notifikasi />} />
-        <Route path="/pages/Detail/:id" element={<Detail />} />
-        
-        {/* ✅ Rute baru untuk Login dan Register */}
+        {/* Semua route yang pakai Navbar dibungkus Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Beranda />} />
+          <Route path="/upload" element={<UploadKarya />} />
+          <Route path="/upload/:id" element={<UploadKarya />} />
+          <Route path="/favorit" element={<Favorit />} />
+          <Route path="/riwayat" element={<Riwayat />} />
+          <Route path="/profil" element={<ProfilPage />}>
+            <Route path="favorite" element={<Favorit />} />
+          </Route>
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/notifikasi" element={<Notifikasi />} />
+          <Route path="/pages/Detail/:id" element={<Detail />} />
+        </Route>
+
+        {/* Route tanpa Navbar */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
       </Routes>

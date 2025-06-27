@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import likeIcon from "../assets/love.png";
-import loveTerisiIcon from "../assets/loveterisi.png";
-import commentIcon from "../assets/chat.png";
+import { Heart, MessageCircle, Edit2, Trash2 } from "lucide-react";
 
 const CardKarya = ({ karya, onLikeToggle }) => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [showComment, setShowComment] = useState(false);
-  const [komentarList, setKomentarList] = useState([]);
-  const [komentarInput, setKomentarInput] = useState("");
   const [commentCount, setCommentCount] = useState(0);
-  const token = localStorage.getItem("token");
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     fetchLikeStatus();
-    fetchLikeCount();
-    fetchKomentarCount();
-    if (showComment) fetchKomentar();
-  }, [karya.id, showComment]);
+    fetchCounts();
+    fetchCurrentUser();
+  }, [karya.id]);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:3000/api/user/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      setCurrentUser(data);
+    } catch (err) {
+      console.error("Gagal ambil user login:", err);
+    }
+  };
 
   const fetchLikeStatus = async () => {
     try {
@@ -30,145 +37,148 @@ const CardKarya = ({ karya, onLikeToggle }) => {
       const data = await res.json();
       setLiked(data.liked);
     } catch (err) {
-      console.error("Gagal memuat status like:", err);
+      console.error("Failed to fetch like status:", err);
     }
   };
 
-  const fetchLikeCount = async () => {
+  const fetchCounts = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:3000/api/like/count/${karya.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setLikeCount(data.count);
+      const [likesRes, commentsRes] = await Promise.all([
+        fetch(`http://127.0.0.1:3000/api/like/count/${karya.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`),
+      ]);
+      const likesData = await likesRes.json();
+      const commentsData = await commentsRes.json();
+      setLikeCount(likesData.count);
+      setCommentCount(commentsData.length);
     } catch (err) {
-      console.error("Gagal memuat jumlah like:", err);
+      console.error("Failed to fetch counts:", err);
     }
   };
 
-  const fetchKomentar = async () => {
-    try {
-      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`);
-      const data = await res.json();
-      setKomentarList(data);
-    } catch (err) {
-      console.error("Gagal memuat komentar:", err);
-    }
-  };
-
-  const fetchKomentarCount = async () => {
-    try {
-      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`);
-      const data = await res.json();
-      setCommentCount(data.length);
-    } catch (err) {
-      console.error("Gagal memuat jumlah komentar:", err);
-    }
-  };
-
-  const handleLikeToggle = async () => {
+  const handleLikeToggle = async (e) => {
+    e.stopPropagation();
     try {
       const method = liked ? "DELETE" : "POST";
       const res = await fetch(`http://127.0.0.1:3000/api/like/${karya.id}`, {
         method,
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.msg || "Terjadi kesalahan saat like");
-      }
+      if (!res.ok) throw new Error("Like action failed");
 
       const newLiked = !liked;
       setLiked(newLiked);
       setLikeCount((prev) => (newLiked ? prev + 1 : prev - 1));
       if (onLikeToggle) onLikeToggle();
     } catch (err) {
-      alert("Gagal memproses like: " + err.message);
+      console.error("Failed to toggle like:", err);
     }
   };
 
-  const handleKomentarSubmit = async (e) => {
-    e.preventDefault();
-    if (!komentarInput.trim()) return;
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    if (!window.confirm("Yakin ingin menghapus karya ini?")) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:3000/api/komentar/${karya.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ isi: komentarInput }),
+      const res = await fetch(`http://127.0.0.1:3000/api/karya/${karya.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (!res.ok) throw new Error("Gagal menambahkan komentar");
-
-      setKomentarInput("");
-      fetchKomentar();
-      fetchKomentarCount();
+      if (!res.ok) throw new Error("Gagal menghapus karya.");
+      alert("Karya berhasil dihapus.");
+      if (onLikeToggle) onLikeToggle(); // refresh list
     } catch (err) {
+      console.error(err);
       alert(err.message);
     }
   };
 
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/edit-karya/${karya.id}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/pages/Detail/${karya.id}`);
+  };
+
+  const translateCategory = (category) => {
+    switch (category?.toLowerCase()) {
+      case "tulisan":
+        return "Writing";
+      case "desain":
+        return "Design";
+      case "fotografi":
+        return "Photography";
+      default:
+        return category || "Uncategorized";
+    }
+  };
+
+  const isOwner = currentUser?.username === karya.user?.username;
+
   return (
-    <div className="bg-white p-4 shadow rounded flex flex-col justify-between">
-      <img
-        src={karya.file_url}
-        alt={karya.judul}
-        className="w-full h-48 object-cover rounded mb-2"
-      />
-
-      <h2 className="text-lg font-semibold line-clamp-2">{karya.judul}</h2>
-      <p className="text-sm text-gray-600 mb-2">{karya.kategori}</p>
-
-      <div className="mt-auto flex justify-between items-center">
-        <button
-          onClick={() => navigate(`/pages/Detail/${karya.id}`)}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
-        >
-          Detail
-        </button>
-
-        <div className="flex items-center space-x-2">
-          <button onClick={handleLikeToggle} className="hover:scale-110 transition-transform">
-            <img
-              src={liked ? loveTerisiIcon : likeIcon}
-              alt="Like"
-              className="w-6 h-6"
-            />
-          </button>
-          <span className="text-sm text-gray-600">{likeCount}</span>
-
-          <button
-            onClick={() => navigate(`/pages/Detail/${karya.id}`)}
-            className="hover:scale-110 transition-transform"
-          >
-            <img src={commentIcon} alt="Comment" className="w-6 h-6" />
-          </button>
-
-          <span className="text-sm text-gray-600">{commentCount}</span>
-        </div>
+    <div
+      onClick={handleCardClick}
+      className="w-68 bg-gradient-to-b from-gray-400 to-purple-400 rounded-2xl overflow-hidden shadow-lg font-[Montserrat] cursor-pointer"
+    >
+      <div className="relative h-56 overflow-hidden">
+        <img
+          src={karya.file_url || "https://via.placeholder.com/400x300"}
+          alt={karya.judul}
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      {showComment && (
-        <div className="mt-4">
-          <div className="mt-2 max-h-32 overflow-y-auto">
-            {komentarList.length === 0 ? (
-              <p className="text-sm text-gray-500 mt-2">Belum ada komentar.</p>
-            ) : (
-              <ul className="text-sm mt-2 space-y-1">
-                {komentarList.map((kom, idx) => (
-                  <li key={idx} className="border-b pb-1">
-                    {kom.isi}
-                  </li>
-                ))}
-              </ul>
-            )}
+      <div className="p-3 bg-gradient-to-b from-[#77627C] to-[#66304F]">
+        <h3 className="text-white text-sm font-semibold truncate mb-1">
+          {karya.judul}
+        </h3>
+
+        <div className="mb-1">
+          <span className="inline-block bg-white text-[#91315F] text-[10px] font-bold px-2 py-0.5 rounded-full">
+            {translateCategory(karya.kategori)}
+          </span>
+        </div>
+
+        <p className="text-white text-xs truncate mb-2">
+          By {karya.user?.nama || "Unknown"}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <button onClick={handleLikeToggle} className="flex items-center space-x-1">
+            <Heart
+              className={`w-4 h-4 ${liked ? "text-red-500 fill-current" : "text-white"}`}
+            />
+            <span className="text-white text-xs">{likeCount}</span>
+          </button>
+
+          <div className="flex items-center space-x-1">
+            <MessageCircle className="w-4 h-4 text-white" />
+            <span className="text-white text-xs">{commentCount}</span>
           </div>
         </div>
-      )}
+
+        {isOwner && (
+          <div className="flex justify-end mt-2 space-x-2">
+            <button
+              onClick={handleEdit}
+              className="text-xs bg-yellow-500 text-white px-2 py-1 rounded flex items-center gap-1"
+            >
+              <Edit2 size={12} /> Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              className="text-xs bg-red-600 text-white px-2 py-1 rounded flex items-center gap-1"
+            >
+              <Trash2 size={12} /> Hapus
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

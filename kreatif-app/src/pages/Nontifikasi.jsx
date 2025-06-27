@@ -23,35 +23,38 @@ function Nontifikasi() {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Notifikasi</h1>
+    <div className="fixed top-10 right-20 w-80 z-50 bg-white shadow-lg rounded-lg border border-gray-200 p-4">
+      <h1 className="text-lg font-bold mb-3">Notifikasi</h1>
 
       {notifikasi.length === 0 ? (
-        <p>Tidak ada notifikasi baru.</p>
+        <p className="text-sm text-gray-500">Tidak ada notifikasi baru.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-3 max-h-96 overflow-y-auto">
           {notifikasi.map((notif) => (
-            <li key={notif.id} className="flex items-center space-x-4 p-3 bg-white shadow rounded">
+            <li
+              key={notif.id}
+              className="flex items-center space-x-3 p-2 bg-gray-50 rounded hover:bg-gray-100"
+            >
               <img
                 src={notif.dari_user?.profile_picture || "/default-avatar.png"}
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
               />
-
               <div className="flex-1">
                 <p className="text-sm">
-                  <span className="font-bold">{notif.dari_user?.username}</span>{" "}
+                  <span className="font-semibold">{notif.dari_user?.username}</span>{" "}
                   {notif.jenis === "like"
                     ? "menyukai postingan Anda"
                     : "mengomentari postingan Anda"}
                 </p>
               </div>
-
-              <img
-                src={notif.karya?.file_url}
-                alt="Karya"
-                className="w-14 h-14 object-cover rounded"
-              />
+              {notif.karya?.file_url && (
+                <img
+                  src={notif.karya.file_url}
+                  alt="Karya"
+                  className="w-12 h-12 object-cover rounded"
+                />
+              )}
             </li>
           ))}
         </ul>

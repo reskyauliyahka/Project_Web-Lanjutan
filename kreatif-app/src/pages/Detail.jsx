@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import likeIcon from "../assets/love.png";
+import likeIcon from "../assets/ic_love.png";
 import loveTerisiIcon from "../assets/loveterisi.png";
-import commentIcon from "../assets/chat.png";
+import commentIcon from "../assets/ic_comment.png";
 
 const Detail = () => {
   const { id } = useParams();
@@ -133,9 +133,7 @@ const Detail = () => {
     try {
       const res = await fetch(`http://127.0.0.1:3000/api/karya/${id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Gagal menghapus karya");
       alert("Karya berhasil dihapus");
@@ -145,109 +143,115 @@ const Detail = () => {
     }
   };
 
-  if (loading) return <div className="p-4">Memuat detail karya...</div>;
-  if (!karya) return <div className="p-4">Karya tidak ditemukan.</div>;
+  if (loading) return <div className="text-white text-center mt-10">Memuat detail karya...</div>;
+  if (!karya) return <div className="text-white text-center mt-10">Karya tidak ditemukan.</div>;
 
   return (
-    <div className="max-w-6xl mx-auto p-6 mt-6 bg-white shadow rounded">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Kolom Gambar */}
-        <div>
-          <img
-            src={karya.file_url}
-            alt={karya.judul}
-            className="w-full h-96 object-cover rounded"
-          />
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-[#1A1A2E] to-[#91315F] mt-8 text-white px-4 py-16 font-[Montserrat]">
+      <div className="max-w-6xl mx-auto">
+        {/* Judul di tengah */}
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8">{karya.judul}</h1>
 
-        {/* Kolom Informasi */}
-        <div className="flex flex-col justify-between">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">{karya.judul}</h1>
-            <p className="text-sm text-gray-500 mb-1">
-              Kategori: <span className="font-semibold">{karya.kategori}</span>
-            </p>
-            <p className="text-gray-700 mb-4">{karya.deskripsi || "Tidak ada deskripsi."}</p>
-          </div>
-
-          {/* Like & Komentar */}
-          <div className="mt-4 flex items-center space-x-4">
-            <button onClick={handleLikeToggle} className="hover:scale-110 transition-transform">
-              <img
-                src={liked ? loveTerisiIcon : likeIcon}
-                alt="Like"
-                className="w-7 h-7"
-              />
-            </button>
-            <span className="text-sm text-gray-600">{likeCount} suka</span>
-
-            <img src={commentIcon} alt="Comment" className="w-6 h-6 ml-4" />
-            <span className="text-sm text-gray-600">{commentCount} komentar</span>
-          </div>
-
-          {/* Tombol Edit dan Hapus */}
-          {(karya.user_id === userId || role === "admin") && (
-            <div className="flex gap-2 mt-6">
-              <button
-                onClick={() => navigate(`/upload/${karya.id}`)}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded text-sm"
-              >
-                Edit
-              </button>
-              <button
-                onClick={handleHapusKarya}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded text-sm"
-              >
-                Hapus
-              </button>
-            </div>
-          )}
-
-          {/* Form Komentar */}
-          <form onSubmit={handleKomentarSubmit} className="flex space-x-2 mt-6">
-            <input
-              type="text"
-              className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
-              placeholder="Tulis komentar..."
-              value={komentarInput}
-              onChange={(e) => setKomentarInput(e.target.value)}
-              disabled={!token}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          {/* Gambar di kiri */}
+          <div className="w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={karya.file_url}
+              alt={karya.judul}
+              className="object-cover w-full h-auto"
             />
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded text-sm"
-              disabled={!token}
-            >
-              Kirim
-            </button>
-          </form>
+          </div>
 
-          {/* List Komentar */}
-          <div className="mt-4 max-h-40 overflow-y-auto">
-            {komentarList.length === 0 ? (
-              <p className="text-sm text-gray-500">Belum ada komentar.</p>
-            ) : (
-              <ul className="text-sm mt-2 space-y-3">
-                {komentarList.map((kom, idx) => (
-                  <li key={idx} className="flex items-start gap-2 border-b pb-2">
-                    <img
-                      src={kom.user?.profile_picture || "https://via.placeholder.com/40"}
-                      alt={kom.user?.username}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold">{kom.user?.username || "Pengguna"}</p>
-                      <p>{kom.isi}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+          {/* Konten di kanan */}
+          <div className="text-left space-y-4">
+            {/* Kategori */}
+            <div>
+              <span className="bg-white text-[#91315F] font-semibold px-4 py-1 rounded-full text-sm">
+                {karya.kategori}
+              </span>
+            </div>
+
+            {/* Deskripsi */}
+            <p className="text-sm md:text-base text-gray-200 leading-relaxed whitespace-pre-wrap">
+              {karya.deskripsi || "Tidak ada deskripsi."}
+            </p>
+
+            {/* Like & Comment Count */}
+            <div className="flex items-center gap-6 mt-4">
+              <div className="flex items-center gap-3">
+                <button onClick={handleLikeToggle}>
+                  <img src={liked ? loveTerisiIcon : likeIcon} alt="like" className="h-6" />
+                </button>
+                <span className="text-sm">{likeCount}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <img src={commentIcon} alt="comment" className="w-6 h-6" />
+                <span className="text-sm">{commentCount}</span>
+              </div>
+            </div>
+
+            {/* Tombol Edit & Hapus */}
+            {(karya.user_id === userId || role === "admin") && (
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={() => navigate(`/upload/${karya.id}`)}
+                  className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md font-semibold"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={handleHapusKarya}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold"
+                >
+                  Delete
+                </button>
+              </div>
             )}
+
+            {/* Komentar Form */}
+            <form
+              onSubmit={handleKomentarSubmit}
+              className="flex items-center bg-white rounded-full px-4 py-2 mt-6"
+            >
+              <input
+                type="text"
+                className="flex-1 text-sm text-black bg-transparent outline-none"
+                placeholder="Write ur Comments"
+                value={komentarInput}
+                onChange={(e) => setKomentarInput(e.target.value)}
+                disabled={!token}
+              />
+              <button
+                type="submit"
+                className="text-white bg-[#4CAF50] hover:bg-green-600 px-4 py-1 rounded-full text-sm"
+                disabled={!token}
+              >
+                Send
+              </button>
+            </form>
+
+            {/* Komentar List */}
+            <div className="space-y-3 max-h-40 overflow-y-auto pr-1">
+              {komentarList.length === 0 ? (
+                <p className="text-sm text-gray-400">Belum ada komentar.</p>
+              ) : (
+                komentarList.map((komentar, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#453855] to rounded-lg px-4 py-3 text-left text-sm"
+                  >
+                    <p className="font-bold mb-1">{komentar.user?.username || "Anonim"}</p>
+                    <p className="text-gray-300">{komentar.isi}</p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+
 };
 
 export default Detail;

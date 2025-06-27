@@ -77,7 +77,7 @@ const ProfilPage = () => {
     fetchProfile();
   }, []);
 
-  if (!user) return <p className="text-center mt-8">Memuat profil...</p>;
+  if (!user) return <p className="text-center mt-8 text-gray-500">Memuat profil...</p>;
 
   const displayImage = formData.profile_picture
     ? URL.createObjectURL(formData.profile_picture)
@@ -85,7 +85,7 @@ const ProfilPage = () => {
     ? (user.profile_picture.includes("http")
         ? user.profile_picture
         : `http://127.0.0.1:3000/${user.profile_picture}`)
-    : "/profile_default.png";
+    : "/profile_default.jpeg";
 
   return (
     <div className="min-h-screen flex bg-gray-100 font-[Montserrat]">
@@ -127,14 +127,14 @@ const ProfilPage = () => {
           <section className="w-full max-w-3xl p-8 rounded-xl shadow-lg backdrop-blur-sm text-white">
             <h1 className="text-2xl font-bold mb-6">Edit Profil</h1>
             <form onSubmit={handleUpdate} className="space-y-6">
-              <div className="flex flex-col md:flex-row items-start  gap-16">
-                {/* Foto Profil Preview yang Bisa Diklik */}
+              <div className="flex flex-col md:flex-row items-start gap-16">
+                {/* Foto Profil Preview */}
                 <div className="flex-shrink-0 text-center">
                   <label className="block font-medium mb-2 text-white">Foto Profil</label>
                   <img
                     src={displayImage}
                     alt="Preview"
-                    className="w-48 h-48 rounded-full object-cover border-2  border-white cursor-pointer"
+                    className="w-48 h-48 rounded-full object-cover border-2 border-white cursor-pointer"
                     onClick={() => document.getElementById("profileInput").click()}
                   />
                   <input
@@ -171,7 +171,8 @@ const ProfilPage = () => {
                   />
                 </div>
               </div>
-               {/* Tombol Simpan */}
+
+              {/* Tombol Simpan */}
               <div className="flex justify-end">
                 <button
                   type="submit"

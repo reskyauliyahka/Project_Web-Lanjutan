@@ -9,6 +9,7 @@ import Notifikasi from './pages/Nontifikasi';
 import Detail from "./pages/Detail";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
+import NotFound from "./pages/NotFound";
 
 // ⬇️ Import halaman baru
 import LoginForm from './pages/Login';
@@ -47,6 +48,8 @@ function App() {
         {/* Route tanpa Navbar */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
     </Router>
   );

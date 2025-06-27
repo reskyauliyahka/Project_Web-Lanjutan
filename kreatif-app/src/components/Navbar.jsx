@@ -7,9 +7,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [showNotif, setShowNotif] = useState(false);
-  const [notifikasi, setNotifikasi] = useState([]); // <- State notifikasi
+  const [notifikasi, setNotifikasi] = useState([]);
 
-  // Ambil profil user
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -32,7 +31,6 @@ const Navbar = () => {
     }
   }, [token]);
 
-  // Ambil notifikasi saat pertama render
   useEffect(() => {
     const fetchNotifikasi = async () => {
       try {
@@ -59,16 +57,13 @@ const Navbar = () => {
     navigate("/");
   };
 
-  // Cek apakah ada notifikasi belum dibaca
   const adaNotifikasiBaru = notifikasi.some((n) => n.dibaca === false);
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 px-[48px] py-4 flex justify-between items-center font-[Montserrat] bg-cover bg-center
-      + border-b border-white/40
-      "
-        style={{ backgroundImage: "url('/bg-navbar.png')" }}
-      >
+      className="fixed top-0 left-0 right-0 z-50 px-[48px] py-4 flex justify-between items-center font-[Montserrat] bg-cover bg-center border-b border-white/40"
+      style={{ backgroundImage: "url('/bg-navbar.png')" }}
+    >
       <div className="text-2xl font-bold text-white">
         <Link to="/">KreARTif</Link>
       </div>
@@ -89,8 +84,8 @@ const Navbar = () => {
               <img
                 src={
                   adaNotifikasiBaru
-                    ? "/src/assets/ic_notification_active.png"
-                    : "/src/assets/ic_notification.png"
+                    ? "/ic_notification_active.png"
+                    : "/ic_notification.png"
                 }
                 alt="Notifikasi"
                 className="w-12 h-6 object-contain"
@@ -102,8 +97,9 @@ const Navbar = () => {
             <Link to="/profil">
               <img
                 src={
-                  userProfile?.profile_picture ||
-                  "/src/assets/default-profile.png"
+                  userProfile?.profile_picture
+                    ? userProfile.profile_picture
+                    : "/profile_default.jpeg"
                 }
                 alt="Profile"
                 className="w-9 h-9 rounded-full border border-gray-300 object-cover cursor-pointer"
@@ -111,7 +107,9 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          <Link to="/login" className="bg-[#91315F] text-white px-4 py-2 rounded hover:bg-blue-600">Login</Link>
+          <Link to="/login" className="bg-[#91315F] text-white px-4 py-2 rounded hover:bg-blue-600">
+            Login
+          </Link>
         )}
       </div>
     </nav>

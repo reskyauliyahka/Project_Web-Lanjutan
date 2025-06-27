@@ -72,7 +72,7 @@ function RegisterForm() {
         {/* Left side - Image and Text */}
         <div className="order-2 lg:order-1 text-white hidden lg:flex items-center justify-center gap-10">
           <img 
-            src="/src/assets/imgregist.png"
+            src="/imgregist.png"
             alt="Creative Work"
             className="w-52 h-auto rounded-xl shadow-xl"
           />

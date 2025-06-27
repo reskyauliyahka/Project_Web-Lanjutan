@@ -154,7 +154,7 @@ function Login() {
         {/* Right side - Image and Text */}
         <div className="order-1 lg:order-2 text-white hidden lg:flex items-center justify-center gap-10">
           <img 
-            src="/src/assets/imglogin.png"
+            src="/imglogin.png"
             alt="Creative Work"
             className="w-52 h-auto rounded-xl shadow-xl"
           />

@@ -36,9 +36,8 @@ function App() {
           <Route path="/upload/:id" element={<UploadKarya />} />
           <Route path="/favorit" element={<Favorit />} />
           <Route path="/riwayat" element={<Riwayat />} />
-          <Route path="/profil" element={<ProfilPage />}>
-            <Route path="favorite" element={<Favorit />} />
-          </Route>
+          <Route path="/profil/*" element={<ProfilPage />} />
+
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/about" element={<About />} />
           <Route path="/notifikasi" element={<Notifikasi />} />

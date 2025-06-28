@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import Favorit from "./Favorit";
 import Riwayat from "./Riwayat";
 import UploadKarya from "./UploadKarya";
-import { useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X } from "lucide-react";
 
 const ProfilPage = () => {
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({ username: "", email: "", profile_picture: null });
   const [activeTab, setActiveTab] = useState("profil");
+  const [showSidebar, setShowSidebar] = useState(false);
   const token = localStorage.getItem("token");
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const path = location.pathname.replace('/', '');
-    setActiveTab(path || 'profil');
+    const subPath = location.pathname.split('/')[2] || 'profil';
+    setActiveTab(subPath);
   }, [location]);
 
   const fetchProfile = async () => {
@@ -73,6 +76,12 @@ const ProfilPage = () => {
     window.location.href = "/login";
   };
 
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setShowSidebar(false);
+    navigate(`/profil${tabName !== "profil" ? `/${tabName}` : ""}`);
+  };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -88,10 +97,19 @@ const ProfilPage = () => {
     : "/profile_default.jpeg";
 
   return (
-    <div className="min-h-screen flex bg-gray-100 font-[Montserrat]">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 font-[Montserrat]">
+      {/* Sidebar toggle (mobile only) */}
+      <div className="md:hidden fixed top-16 left-4 z-50 mt-4">
+        <button
+          onClick={() => setShowSidebar(!showSidebar)}
+          className="bg-[#a159ff] text-white p-2 rounded shadow-lg"
+        >
+          {showSidebar ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
       {/* Sidebar */}
-      <aside className="w-64 shadow-md p-6 bg-cover bg-center mt-16 border-r border-white/50"
-        style={{ backgroundImage: "url('/sidebar-bg.png')" }}>
+      <aside className={`fixed md:static top-0 left-0 z-40 w-64 h-full md:h-auto mt-16 p-6 bg-cover bg-center border-r border-white/50 transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`} style={{ backgroundImage: "url('/sidebar-bg.png')" }}>
         <div className="text-center mb-6">
           <img
             src={displayImage}
@@ -102,16 +120,16 @@ const ProfilPage = () => {
           <p className="text-sm text-[#aeaeaf]">{user.email}</p>
         </div>
         <nav className="flex flex-col gap-3 text-white">
-          <button onClick={() => setActiveTab("profil")} className={`text-left px-3 py-2 rounded ${activeTab === "profil" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
+          <button onClick={() => handleTabChange("profil")} className={`text-left px-3 py-2 rounded ${activeTab === "profil" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
             Profil
           </button>
-          <button onClick={() => setActiveTab("favorit")} className={`text-left px-3 py-2 rounded ${activeTab === "favorit" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
+          <button onClick={() => handleTabChange("favorit")} className={`text-left px-3 py-2 rounded ${activeTab === "favorit" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
             Favorit
           </button>
-          <button onClick={() => setActiveTab("riwayat")} className={`text-left px-3 py-2 rounded ${activeTab === "riwayat" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
+          <button onClick={() => handleTabChange("riwayat")} className={`text-left px-3 py-2 rounded ${activeTab === "riwayat" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
             Riwayat
           </button>
-          <button onClick={() => setActiveTab("upload")} className={`text-left px-3 py-2 rounded ${activeTab === "upload" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
+          <button onClick={() => handleTabChange("upload")} className={`text-left px-3 py-2 rounded ${activeTab === "upload" ? "bg-[#a159ff54] font-semibold" : "hover:bg-[#a159ff54]"}`}>
             Upload Karya
           </button>
           <button onClick={handleLogout} className="text-left px-3 py-2 rounded hover:bg-[#7b19197c] mt-4">
@@ -121,8 +139,7 @@ const ProfilPage = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-2 flex bg-cover bg-center mt-16"
-        style={{ backgroundImage: "url('/profile-bg.png')" }}>
+      <main className="flex-1 p-2 flex bg-cover bg-center mt-16" style={{ backgroundImage: "url('/profile-bg.png')" }}>
         {activeTab === "profil" && (
           <section className="w-full max-w-3xl p-8 rounded-xl shadow-lg backdrop-blur-sm text-white">
             <h1 className="text-2xl font-bold mb-6">Edit Profil</h1>

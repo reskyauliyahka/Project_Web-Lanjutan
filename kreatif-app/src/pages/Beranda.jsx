@@ -80,10 +80,10 @@ const Beranda = () => {
 
   return (
     <div className="min-h-screen bg-white bg-cover bg-center font-[Montserrat] flex flex-col">
-      <header className="h-[600px] text-white py-4 bg-cover bg-center" style={{ backgroundImage: "url('/home-bg.png')" }}>
-        <div className="container mx-auto px-4 py-20 flex flex-col md:flex-row items-start justify-between">
-          
-          {/* Kiri: Carousel Gambar */}
+      <header className="min-h-[600px] text-white py-4 bg-cover bg-center" style={{ backgroundImage: "url('/home-bg.png')" }}>
+      <div className="container mx-auto px-4 py-20 flex flex-col md:flex-row items-center justify-between">
+
+        {/* Kiri: Carousel Gambar */}
           <div className="w-full md:w-1/2 flex flex-col items-center justify-center md:items-start md:pl-16 mt-6">
             <img
               src={images[currentImageIndex]}
@@ -114,8 +114,11 @@ const Beranda = () => {
             </p>
           </div>
 
-        </div>
-      </header>
+        
+
+      </div>
+    </header>
+
 
 
 
@@ -151,49 +154,50 @@ const Beranda = () => {
       </section>
 
       {/* Category Section */}
-      <section className="px-6 py-12 h-[560px] text-white py-4 bg-cover bg-center" style={{ backgroundImage: "url('/bg-category.png')" }}>
-        <h2 className="text-3xl font-bold text-center mb-2 text-white">
-          Category
-        </h2>
-        <p className="text-center text-white mb-8">
-          Discover your favorite style—one category at a time.
-        </p>
+      <section className="px-4 sm:px-6 py-12 text-white bg-cover bg-center" style={{ backgroundImage: "url('/bg-category.png')" }}>
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">
+        Category
+      </h2>
+      <p className="text-center text-sm sm:text-base text-white mb-8 px-2">
+        Discover your favorite style—one category at a time.
+      </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {/* Writing Card */}
-          <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
-            <img src="/icon_write.png" alt="Writing Icon" className="mx-auto w-24 h-24 mb-8" />
-            <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-8">
-              Writing
-            </h3>
-            <p className="text-[12px]">
-              Immerse yourself in captivating stories, poems, and written works. Discover voices that move, inspire, and ignite imagination.
-            </p>
-          </div>
-
-          {/* Photography Card */}
-          <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
-            <img src="/icon_photo.png" alt="Photography Icon" className="mx-auto w-24 h-24 mb-8" />
-            <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-8">
-              Photography
-            </h3>
-            <p className="text-[12px]">
-              Capture the world through powerful lenses and perspectives. From candid moments to iconic masterpieces, see life in every frame.
-            </p>
-          </div>
-
-          {/* Design Card */}
-          <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
-            <img src="/icon_design.png" alt="Design Icon" className="mx-auto w-24 h-24 mb-8" />
-            <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-8">
-              Design
-            </h3>
-            <p className="text-[12px]">
-              Experience creativity through stunning visuals and bold ideas. Explore innovative compositions from talented visual artists.
-            </p>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* Writing Card */}
+        <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
+          <img src="/icon_write.png" alt="Writing Icon" className="mx-auto w-20 sm:w-24 h-20 sm:h-24 mb-6" />
+          <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-6">
+            Writing
+          </h3>
+          <p className="text-xs sm:text-sm px-2">
+            Immerse yourself in captivating stories, poems, and written works. Discover voices that move, inspire, and ignite imagination.
+          </p>
         </div>
-      </section>
+
+        {/* Photography Card */}
+        <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
+          <img src="/icon_photo.png" alt="Photography Icon" className="mx-auto w-20 sm:w-24 h-20 sm:h-24 mb-6" />
+          <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-6">
+            Photography
+          </h3>
+          <p className="text-xs sm:text-sm px-2">
+            Capture the world through powerful lenses and perspectives. From candid moments to iconic masterpieces, see life in every frame.
+          </p>
+        </div>
+
+        {/* Design Card */}
+        <div className="rounded-lg p-6 text-white text-center" style={{ background: "linear-gradient(to bottom, #77627C, #392553)" }}>
+          <img src="/icon_design.png" alt="Design Icon" className="mx-auto w-20 sm:w-24 h-20 sm:h-24 mb-6" />
+          <h3 className="bg-white text-[#91315F] px-3 py-1 rounded-full inline-block font-semibold text-sm mb-6">
+            Design
+          </h3>
+          <p className="text-xs sm:text-sm px-2">
+            Experience creativity through stunning visuals and bold ideas. Explore innovative compositions from talented visual artists.
+          </p>
+        </div>
+      </div>
+    </section>
+
 
 
       {/* Footer */}

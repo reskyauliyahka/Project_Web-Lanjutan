@@ -17,30 +17,31 @@ function About() {
   return (
     <div className="font-[Montserrat]">
       {/* Section About */}
-      <div
-        className="h-[600px] bg-cover bg-center text-white px-6 py-2 flex flex-col md:flex-row items-center justify-between gap-2"
-        style={{ backgroundImage: "url('/bg-about.png')" }}
-      >
-        {/* Left Side Text */}
-        <div className="max-w-xl text-left ml-30">
-          <h1 className="text-4xl font-extrabold mb-6">About KreARTif</h1>
-          <p className="text-lg leading-relaxed text-gray-200">
-            <span className="font-semibold">KreARTif</span> is a digital platform built to empower aspiring artists,
-            writers, and photographers by providing a space to share, grow, and connect. Whether you're showcasing your
-            design, telling stories through writing, or capturing moments through photography—KreARTif is your creative
-            home.
-          </p>
-        </div>
-
-        {/* Right Side Image Carousel */}
-        <div className="w-[300px] h-[400px] rounded-xl overflow-hidden shadow-lg border border-white/30 mr-30 mt-12">
-          <img
-            src={images[currentImage]}
-            alt="carousel"
-            className="object-cover w-full h-full transition-all duration-700"
-          />
-        </div>
+      <section
+      className="min-h-[600px] bg-cover bg-center text-white px-6 py-12 flex flex-col md:flex-row items-center justify-center gap-12"
+      style={{ backgroundImage: "url('/bg-about.png')" }}
+    >
+      {/* Left Side Text */}
+      <div className="w-full md:w-1/2 max-w-xl text-center md:text-left">
+        <h1 className="text-4xl font-extrabold mb-6">About KreARTif</h1>
+        <p className="text-lg leading-relaxed text-gray-200">
+          <span className="font-semibold">KreARTif</span> is a digital platform built to empower aspiring artists,
+          writers, and photographers by providing a space to share, grow, and connect. Whether you're showcasing your
+          design, telling stories through writing, or capturing moments through photography—KreARTif is your creative
+          home.
+        </p>
       </div>
+
+      {/* Right Side Image Carousel */}
+      <div className="w-full md:w-[300px] h-[400px] rounded-xl overflow-hidden shadow-lg border border-white/30">
+        <img
+          src={images[currentImage]}
+          alt="carousel"
+          className="object-cover w-full h-full transition-all duration-700"
+        />
+      </div>
+    </section>
+
 
       {/* Section Vision & Mission */}
       <div

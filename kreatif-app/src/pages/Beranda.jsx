@@ -119,14 +119,11 @@ const Beranda = () => {
       </div>
     </header>
 
-
-
-
       {/* Popular Posts */}
       <section className="h-[580px] text-white py-4 bg-cover bg-center bg-[#121212] pl-[48px] ">
         <div className="text-center mb-6 mt-8">
-          <h2 className="text-3xl font-bold font-montserrat mb-2">Popular Posts</h2>
-          <p className="text-m text-gray-300 mb-12">This Week’s Most Loved Artworks!</p>
+          <h2 className="text-3xl font-bold font-montserrat mb-2">Latest Posts</h2>
+          <p className="text-m text-gray-300 mb-12">Discover the newest creative expressions shared by our amazing artists this week!</p>
         </div>
         {loading ? (
           <p className="text-center text-gray-400">Loading posts…</p>
@@ -197,8 +194,6 @@ const Beranda = () => {
         </div>
       </div>
     </section>
-
-
 
       {/* Footer */}
       <Footer />

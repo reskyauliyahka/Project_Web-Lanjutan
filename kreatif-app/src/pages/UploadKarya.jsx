@@ -119,7 +119,7 @@ function UploadKarya() {
       <div className=" text-white flex justify-center items-center font-[Montserrat]">
         <div className="backdrop-blur-md w-full max-w-6xl rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
           {/* Left - Image Upload */}
-          <div className="flex p-0 p-4">
+          <div className="flex p-4">
             <label
               htmlFor="fileInput"
               className="relative w-80 h-[26rem] bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
@@ -172,7 +172,7 @@ function UploadKarya() {
                   name="kategori"
                   value={formData.kategori}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#91315F] bg-black"
+                  className="w-full px-4 py-2 rounded-lg border border-white/10 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#91315F] bg-black"
                   required
                   // defaultValue=""
                 >

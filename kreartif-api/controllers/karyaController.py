@@ -1,5 +1,5 @@
 from fastapi import HTTPException, UploadFile, Request
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from models.karyaModel import Karya
 from models.notifikasiModel import Notifikasi
 from uuid import uuid4
@@ -11,7 +11,20 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 def get_all_karya(db: Session):
-    return db.query(Karya).all()
+    karya_list = db.query(Karya).options(joinedload(Karya.user)).all()
+
+    result = []
+    for karya in karya_list:
+        result.append({
+            "id": karya.id,
+            "judul": karya.judul,
+            "deskripsi": karya.deskripsi,
+            "kategori": karya.kategori,
+            "file_url": karya.file_url,
+            "user_id": karya.user_id,
+            "username": karya.user.username if karya.user else None
+        })
+    return result
 
 
 def get_my_karya(db: Session, current_user: dict):

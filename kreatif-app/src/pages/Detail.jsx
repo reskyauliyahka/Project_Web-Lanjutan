@@ -16,7 +16,7 @@ const Detail = () => {
   const [komentarInput, setKomentarInput] = useState("");
 
   const token = localStorage.getItem("token");
-  const userId = parseInt(localStorage.getItem("id"));
+  const userId = parseInt(localStorage.getItem("userId"));
   const role = localStorage.getItem("role");
 
   useEffect(() => {

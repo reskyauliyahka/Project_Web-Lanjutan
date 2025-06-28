@@ -98,7 +98,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
 
   const handleEdit = (e) => {
     e.stopPropagation();
-    navigate(`/edit-karya/${karya.id}`);
+    navigate(`/upload/${karya.id}`);
   };
 
   const handleCardClick = () => {
@@ -118,7 +118,10 @@ const CardKarya = ({ karya, onLikeToggle }) => {
     }
   };
 
-  const isOwner = currentUser?.username === karya.user?.username;
+  console.log("currentUser:", currentUser);
+  console.log("karya.user_id:", karya.user_id);
+
+  const isOwner = Number(currentUser?.id) === Number(karya.user_id);
 
   return (
     <div
@@ -145,7 +148,7 @@ const CardKarya = ({ karya, onLikeToggle }) => {
         </div>
 
         <p className="text-white text-xs truncate mb-2">
-          By {karya.user?.nama || "Unknown"}
+          By {karya.username || "Unknown"}
         </p>
 
         <div className="flex items-center justify-between">

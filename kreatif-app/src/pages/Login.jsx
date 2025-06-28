@@ -34,7 +34,11 @@ function Login() {
         body: JSON.stringify(formData),
       });
 
+      // Tambahkan delay 
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       const data = await res.json();
+      console.log("Login response:", data);
 
       if (res.ok) {
         localStorage.setItem("token", data.token);

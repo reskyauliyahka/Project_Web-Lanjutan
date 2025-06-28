@@ -164,23 +164,6 @@ const CardKarya = ({ karya, onLikeToggle }) => {
             <span className="text-white text-xs">{commentCount}</span>
           </div>
         </div>
-
-        {isOwner && (
-          <div className="flex justify-end mt-2 space-x-2">
-            <button
-              onClick={handleEdit}
-              className="text-xs bg-yellow-500 text-white px-2 py-1 rounded flex items-center gap-1"
-            >
-              <Edit2 size={12} /> Edit
-            </button>
-            <button
-              onClick={handleDelete}
-              className="text-xs bg-red-600 text-white px-2 py-1 rounded flex items-center gap-1"
-            >
-              <Trash2 size={12} /> Hapus
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

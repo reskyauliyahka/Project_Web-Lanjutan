@@ -33,7 +33,7 @@ function Favorit() {
       {loading ? (
         <p>Memuat...</p>
       ) : karyaLiked.length === 0 ? (
-        <p>Belum ada karya yang disukai.</p>
+        <p className="text-white">Belum ada karya yang disukai.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {karyaLiked.map((karya) => (

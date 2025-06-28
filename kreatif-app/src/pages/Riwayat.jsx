@@ -66,7 +66,7 @@ function Riwayat() {
   }, [searchQuery, selectedCategory, karyaList]);
 
   return (
-    <div className="min-h-screen w-[1000px] flex flex-col items-center justify-start py-2 font-[Montserrat]">
+    <div className="min-h-screen w-[980px] flex flex-col items-center justify-start py-2 font-[Montserrat]">
       <h1 className="text-4xl font-extrabold mt-2 text-white mb-2">
         My Artwork History
       </h1>

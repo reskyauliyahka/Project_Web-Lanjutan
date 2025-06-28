@@ -115,7 +115,7 @@ function UploadKarya() {
   };
 
   return (
-    <div className={`min-h-screen ${!isInProfilPage ? "bg-gradient-to-br from-[#1f012e] via-[#000000] to-[#3c0059] font-[Montserrat] mt-12 py-10 px-4" : ""}`}>
+    <div className={`min-h-screen p-8 ${!isInProfilPage ? "bg-gradient-to-br from-[#1f012e] via-[#000000] to-[#3c0059] font-[Montserrat] mt-12 py-10 px-4" : ""}`}>
       <div className=" text-white flex justify-center items-center font-[Montserrat]">
         <div className="backdrop-blur-md w-full max-w-6xl rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
           {/* Left - Image Upload */}
